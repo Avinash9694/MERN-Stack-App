@@ -1,13 +1,20 @@
 import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
 import { connectToDatabase } from "./Config/db.js";
 import router from "./routes/userRoutes.js";
-import dotenv from "dotenv";
-dotenv.config();
-const PORT = process.env.PORT || 8080;
-const app = express();
-app.use(express.json());
 
+dotenv.config();
+
+const PORT = process.env.PORT || 8080;
+
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+// Connect to database
 connectToDatabase();
 
 // Middleware to handle requests and responses

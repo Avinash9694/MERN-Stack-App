@@ -4,7 +4,7 @@ import User from "../Models/userModel.js";
 export const getAllUser = async (req, res) => {
   try {
     const allUsers = await User.find();
-    res.status(200).send({ success: true, users: allUsers });
+    res.status(200).send({ users: allUsers });
   } catch (err) {
     res.status(400).send({ success: false, error: err.message });
   }
@@ -38,7 +38,7 @@ export const getSingleUser = async (req, res) => {
   try {
     const singleUser = await User.findById({ _id: id });
     if (!singleUser) return res.status(404).send("No user with this ID");
-    res.status(200).send({ success: true, user: singleUser });
+    res.status(200).send({ success: true, users: singleUser });
   } catch (err) {
     console.log(err);
     res.status(400).json({ success: false, error: err.message });
@@ -50,10 +50,9 @@ export const deleteSingleUser = async (req, res) => {
   const { id } = req.params;
   try {
     const singleUser = await User.findByIdAndDelete({ _id: id });
+    const allUser = await User.find();
     res.status(200).send({
-      success: true,
-      message: "user deleted successfully",
-      user: singleUser,
+      users: allUser,
     });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
