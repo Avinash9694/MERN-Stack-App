@@ -38,7 +38,7 @@ export const getSingleUser = async (req, res) => {
   try {
     const singleUser = await User.findById({ _id: id });
     if (!singleUser) return res.status(404).send("No user with this ID");
-    res.status(200).send({ success: true, users: singleUser });
+    res.status(200).send({ users: singleUser });
   } catch (err) {
     console.log(err);
     res.status(400).json({ success: false, error: err.message });
@@ -67,10 +67,9 @@ export const updateUser = async (req, res) => {
     const singleUser = await User.findByIdAndUpdate(id, req.body, {
       new: true,
     });
+    const allUser = await User.find();
     res.status(200).send({
-      success: true,
-      message: "user updated successfully",
-      user: singleUser,
+      users: allUser,
     });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });

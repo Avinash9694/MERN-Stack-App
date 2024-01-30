@@ -1,21 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
-
+import { Link } from "react-router-dom";
 const Read = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
   const getData = useCallback(async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api/v1/");
-      const result = await response.json();
+    const response = await fetch("http://localhost:8080/api/v1/");
+    const result = await response.json();
 
-      if (!response.ok) {
-        setError(result.error);
-      } else {
-        setData(result.users);
-      }
-    } catch (error) {
-      setError("An error occurred while fetching data.");
+    if (!response.ok) {
+      setError(result.error);
+    }
+    if (response.ok) {
+      setError("");
+      setData(result.users);
     }
   }, []);
 
@@ -26,7 +24,6 @@ const Read = () => {
 
   const handleDelete = async (id) => {
     try {
-      alert("delete");
       const response = await fetch(`http://localhost:8080/api/v1/${id}`, {
         method: "DELETE",
       });
@@ -35,14 +32,19 @@ const Read = () => {
 
       if (!response.ok) {
         setError(result.error);
-      } else {
-        setData(result.users);
+      }
+      if (response.ok) {
+        setError("Deleted successfully");
+        setTimeout(() => {
+          setError("");
+          getData();
+        }, 2000);
       }
     } catch (error) {
       setError("An error occurred while fetching data.");
     }
   };
-  console.log(data);
+
   return (
     <div className="container my-2">
       {error && <div className="alert alert-danger">{error}</div>}
@@ -57,18 +59,18 @@ const Read = () => {
                   <h6 className="card-subtitle mb-2 text-secondary">
                     {ele.age}
                   </h6>
-                  <a
-                    href="#"
+                  <Link
+                    to="/all"
                     className="card-link"
                     onClick={() => {
                       handleDelete(ele._id);
                     }}
                   >
                     Delete
-                  </a>
-                  <a href="#" className="card-link">
+                  </Link>
+                  <Link to={`/${ele._id}`} className="card-link">
                     Edit
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
