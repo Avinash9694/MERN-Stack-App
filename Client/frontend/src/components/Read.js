@@ -5,7 +5,9 @@ const Read = () => {
   const [error, setError] = useState("");
 
   const getData = useCallback(async () => {
-    const response = await fetch("http://localhost:8080/api/v1/");
+    const response = await fetch(
+      "https://backend-mern-app-jtx4.onrender.com/api/v1"
+    );
     const result = await response.json();
 
     if (!response.ok) {
@@ -24,9 +26,12 @@ const Read = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://backend-mern-app-jtx4.onrender.com/api/v1/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       const result = await response.json();
 

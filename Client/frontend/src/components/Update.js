@@ -12,9 +12,12 @@ const Update = () => {
 
   const { id } = useParams();
   const getSingleUser = async () => {
-    const response = await fetch(`http://localhost:8080/api/v1/${id}`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `https://backend-mern-app-jtx4.onrender.com/api/v1/${id}`,
+      {
+        method: "GET",
+      }
+    );
     const result = await response.json();
 
     if (!response.ok) {
@@ -32,13 +35,16 @@ const Update = () => {
     e.preventDefault();
     const updatedUser = { name, email, age };
 
-    const response = await fetch(`http://localhost:8080/api/v1/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(updatedUser),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://backend-mern-app-jtx4.onrender.com/api/v1/${id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(updatedUser),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const result = await response.json();
     if (!response.ok) {
